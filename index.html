@@ -1,162 +1,149 @@
-<!DOCTYPE html><html lang="tr">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jump Rocket</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: linear-gradient(#87ceeb, #e0f6ff);
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-      touch-action: none;
-    }
-    canvas {
-      display: block;
-      margin: auto;
-      background: #9be7ff;
-      border: 3px solid #333;
-      border-radius: 12px;
-      touch-action: none;
-    }
-    #ui {
-      position: fixed;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #000;
-      font-size: 18px;
-      font-weight: bold;
-      background: rgba(255,255,255,0.6);
-      padding: 6px 14px;
-      border-radius: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BionX ChronoHistory: WW2 Chronicles</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #333;
+        }
+        header h1 {
+            color: #ff4d4d;
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+        header p {
+            color: #888;
+            font-size: 14px;
+        }
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 10px 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #333;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+        }
+        .event-card {
+            padding: 10px 30px;
+            position: relative;
+            background-color: transparent;
+        }
+        .event-content {
+            padding: 20px;
+            background-color: #1e1e1e;
+            position: relative;
+            border-radius: 8px;
+            border-left: 5px solid #ff4d4d;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .event-content:hover {
+            transform: translateY(-3px);
+            background-color: #252525;
+        }
+        .event-year {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff4d4d;
+            margin-bottom: 5px;
+        }
+        .event-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+        .event-details {
+            display: none;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #b0b0b0;
+            margin-top: 10px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+        .active .event-details {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <div id="ui">Skor: <span id="score">0</span></div>
-  <canvas id="game" width="360" height="600"></canvas>  <script>
-    const canvas = document.getElementById('game');
-    const ctx = canvas.getContext('2d');
-    const scoreEl = document.getElementById('score');
 
-    let score = 0;
-    let gameOver = false;
+    <header>
+        <h1>BionX ChronoHistory</h1>
+        <p>WW2 Chronicles — Click on the years to explore the details</p>
+    </header>
 
-    const player = {
-      x: 180,
-      y: 500,
-      w: 30,
-      h: 30,
-      vy: -8,
-      vx: 0
-    };
+    <div class="timeline">
+        <!-- 1939 -->
+        <div class="event-card">
+            <div class="event-content" onclick="toggleDetails(this)">
+                <div class="event-year">1939</div>
+                <div class="event-title">The Outbreak of Total War</div>
+                <div class="event-details">
+                    On September 1, 1939, Nazi Germany launched a brutal surprise invasion of Poland, utilizing the devastating "Blitzkrieg" (Lightning War) doctrine. This coordinated strike combined fast-moving tanks, motorized infantry, and overwhelming air support from the Luftwaffe. In response to this aggression, Great Britain and France honored their treaties and declared war on Germany on September 3, officially igniting the global conflagration. Meanwhile, the Soviet Union invaded Poland from the east on September 17 under the secret protocols of the Molotov-Ribbentrop Pact.
+                </div>
+            </div>
+        </div>
 
-    const gravity = 0.4;
-    const platforms = [];
+        <!-- 1941 -->
+        <div class="event-card">
+            <div class="event-content" onclick="toggleDetails(this)">
+                <div class="event-year">1941</div>
+                <div class="event-title">Global Escalation & Barbarossa</div>
+                <div class="event-details">
+                    The war expanded drastically in 1941. On June 22, Nazi Germany broke its non-aggression pact and launched Operation Barbarossa—the largest military invasion in human history, deploying over 3 million soldiers into the Soviet Union. Despite massive initial German gains, the Red Army managed to halt the Axis forces just outside Moscow as the brutal winter set in. On the other side of the globe, on December 7, 1941, the Imperial Japanese Navy executed a surprise aerial assault on the US Naval Base at Pearl Harbor, Hawaii. This crucial event instantly brought the economic and military might of the United States into World War II as an Allied power.
+                </div>
+            </div>
+        </div>
 
-    function newPlatform(y) {
-      const typeRand = Math.random();
-      let type = 'normal';
-      if (typeRand > 0.85) type = 'rocket';
-      else if (typeRand > 0.7) type = 'bomb';
+        <!-- 1943 -->
+        <div class="event-card">
+            <div class="event-content" onclick="toggleDetails(this)">
+                <div class="event-year">1943</div>
+                <div class="event-title">The Great Turning Point</div>
+                <div class="event-details">
+                    1943 was the year the Axis momentum was permanently broken. In February, the remnants of the German 6th Army surrendered at Stalingrad, marking one of the bloodiest and most strategic defeats for Hitler's forces. Following this, in July, the German high command attempted a massive counter-offensive resulting in the Battle of Kursk—the largest tank battle in history, involving thousands of armored vehicles. The Soviet victory at Kursk shattered Germany's strategic capabilities on the Eastern Front. Concurrently, Western Allies invaded Sicily and mainland Italy, forcing Benito Mussolini from power.
+                </div>
+            </div>
+        </div>
 
-      platforms.push({
-        x: Math.random() * 280,
-        y,
-        w: 80,
-        h: 12,
-        type
-      });
-    }
+        <!-- 1945 -->
+        <div class="event-card">
+            <div class="event-content" onclick="toggleDetails(this)">
+                <div class="event-year">1945</div>
+                <div class="event-title">The Fall of Empires & Peace</div>
+                <div class="event-details">
+                    The final chapter of the war. Allied forces advanced into Germany from both the West and East. In April, Soviet forces launched the massive Battle of Berlin, culminating in the unconditional surrender of Germany on May 8 (V-E Day). In the Pacific Theater, to avoid a costly mainland invasion, the United States dropped two atomic bombs on the Japanese cities of Hiroshima and Nagasaki in August. This unprecedented destruction led to the official surrender of Japan on September 2, 1945, aboard the USS Missouri, finally ending World War II.
+                </div>
+            </div>
+        </div>
+    </div>
 
-    for (let i = 0; i < 8; i++) newPlatform(600 - i * 80);
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') player.vx = -3;
-      if (e.key === 'ArrowRight') player.vx = 3;
-      if (gameOver && e.key === 'Enter') location.reload();
-    });
-    document.addEventListener('keyup', () => player.vx = 0);
-
-    // Dokunmatik kontrol
-    canvas.addEventListener('touchstart', e => {
-      const touchX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
-      if (touchX < canvas.width / 2) player.vx = -3;
-      else player.vx = 3;
-    });
-
-    canvas.addEventListener('touchend', () => player.vx = 0);
-
-    function update() {
-      if (gameOver) return;
-
-      player.vy += gravity;
-      player.y += player.vy;
-      player.x += player.vx;
-
-      if (player.x < -player.w) player.x = canvas.width;
-      if (player.x > canvas.width) player.x = -player.w;
-
-      platforms.forEach(p => {
-        if (
-          player.vy > 0 &&
-          player.x < p.x + p.w &&
-          player.x + player.w > p.x &&
-          player.y + player.h < p.y + p.h &&
-          player.y + player.h > p.y
-        ) {
-          if (p.type === 'bomb') gameOver = true;
-          if (p.type === 'rocket') player.vy = -16;
-          else player.vy = -10;
+    <script>
+        function toggleDetails(element) {
+            element.classList.toggle('active');
         }
-      });
-
-      if (player.y < 250) {
-        const diff = 250 - player.y;
-        player.y = 250;
-        platforms.forEach(p => p.y += diff);
-        score += Math.floor(diff);
-        scoreEl.textContent = score;
-      }
-
-      while (platforms.length && platforms[0].y > 600) {
-        platforms.shift();
-        newPlatform(-20);
-      }
-
-      if (player.y > canvas.height) gameOver = true;
-    }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = '#ff5050';
-      ctx.fillRect(player.x, player.y, player.w, player.h);
-
-      platforms.forEach(p => {
-        if (p.type === 'normal') ctx.fillStyle = '#2ecc71';
-        if (p.type === 'rocket') ctx.fillStyle = '#f1c40f';
-        if (p.type === 'bomb') ctx.fillStyle = '#000';
-        ctx.fillRect(p.x, p.y, p.w, p.h);
-      });
-
-      if (gameOver) {
-        ctx.fillStyle = '#000';
-        ctx.font = '24px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('GAME OVER', 180, 280);
-        ctx.font = '14px Arial';
-        ctx.fillText('Enter ile yeniden başla', 180, 310);
-      }
-    }
-
-    function loop() {
-      update();
-      draw();
-      requestAnimationFrame(loop);
-    }
-
-    loop();
-  </script></body>
+    </script>
+</body>
 </html>
